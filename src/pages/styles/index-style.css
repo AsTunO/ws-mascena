@@ -1,0 +1,90 @@
+/* Faz o body ocupar 100% da tela */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f7f6;
+}
+
+/* Faz o conteúdo crescer e empurra o footer para baixo */
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* Ajuste do container da imagem */
+.image-container img {
+    max-width: 100%;
+   
+    object-fit: cover;
+}
+
+/* Formulário */
+.form-container {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3), 
+                -10px -10px 20px rgba(255, 255, 255, 0.8), 
+                inset 5px 5px 10px rgba(0, 0, 0, 0.1), 
+                inset -5px -5px 10px rgba(255, 255, 255, 0.7);
+    width: 100%;
+    max-width: 450px; /* Limita a largura do formulário */
+    margin: auto;
+}
+
+/* Estilização do Header */
+header {
+    width: 100%;
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    z-index: 1000;
+}
+
+/* Footer no final da página */
+footer {
+    width: 100%;
+    background-color: #272525;
+    color: rgb(250, 250, 250);
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0px -4px 10px rgba(33, 56, 148, 0.3);
+    margin-top: 40px;
+}
+
+/* Estilização do botão do WhatsApp */
+.btn-outline-green {
+    color: #343a40;
+    border-color: #343a40;
+}
+
+.btn-outline-green:hover {
+    color: white;
+    background-color: #25d366;
+    border-color: #25d366;
+}
+
+.btn-outline-dark {
+    color: #343a40;
+    border-color: #343a40;
+}
+
+.btn-outline-dark:hover {
+    color: white;
+    background-color: #000000;
+    border-color: #0c0c0c;
+}
+
+/* Ajuste da imagem no desktop */
+@media (min-width: 992px) {
+    .image-container img {
+        max-width: 110%; /* Imagem maior em telas grandes */
+    }
+    .form-container {
+        padding-left: 30px;
+    }
+}

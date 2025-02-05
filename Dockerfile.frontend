@@ -1,0 +1,17 @@
+# Usar a imagem base do Node.js
+FROM node:18
+
+# Definir o diretório de trabalho
+WORKDIR /usr/src/app
+
+# Instalar o live-server globalmente
+RUN npm install -g live-server
+
+# Copiar todos os arquivos do frontend, incluindo as pastas 'styles' e 'imgs'
+COPY . .
+
+# Expor a porta do frontend
+EXPOSE 5500
+
+# Rodar o live-server da pasta src/pages
+CMD ["live-server", "src/pages", "--port=5500", "--host=0.0.0.0", "--no-browser"]

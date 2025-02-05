@@ -1,0 +1,69 @@
+/* Faz o body ocupar 100% da tela */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f7f6;
+}
+
+/* Faz o main ocupar todo o espaço disponível entre o header e o footer */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    height: 100%; /* Garante que o main ocupe toda a altura disponível */
+}
+
+/* Estilização do Header */
+header {
+    width: 100%;
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    z-index: 1000;
+}
+
+/* Footer no final da página */
+footer {
+    width: 100%;
+    background-color: #272525;
+    color: rgb(250, 250, 250);
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0px -4px 10px rgba(33, 56, 148, 0.3);
+    margin-top: 40px;
+}
+
+header .navbar-brand {
+    font-weight: bold;
+}
+
+.container {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.container h1 {
+    font-size: 2.5rem;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.container p {
+    font-size: 1.2rem;
+    color: #6c757d;
+}
+
+.btn-inicio {
+    background-color: #007bff;
+    color: white;
+    font-size: 1rem;
+    padding: 10px 30px;
+    margin-top: 30px;
+}
+
+.btn-inicio:hover {
+    background-color: #0056b3;
+}
