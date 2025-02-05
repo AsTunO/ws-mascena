@@ -30,18 +30,40 @@
                 <div class="row align-items-end">
                     <div class="col-md-8">
                         <label class="form-label">Número de referência</label>
-                        <input type="text" class="form-control" id="numeroReferencia">
+                        <input type="text" class="form-control" id="numeroReferencia" style="text-transform:uppercase;">
                     </div>
-                    <div class="col-md-4">
-                        <button type="button" class="btn btn-primary w-100" onclick="pesquisarSinistro()">
+                    <div class="col-md-4 d-flex">
+                        <button type="button" class="btn btn-primary w-50" onclick="pesquisarSinistro()">
                             <i class="fas fa-search"></i> Pesquisar
+                        </button>
+                        <button type="button" class="btn btn-secondary w-50 ms-2" onclick="limparCampos()">
+                            <i class="fas fa-eraser"></i> Limpar
                         </button>
                     </div>
                 </div>
             </form>
-            <div id="resultados" class="container mt-5 border border-2 p-4" style="display: none;">
+            <!-- Dentro do resultado -->
+            <div id="resultados" class="container mt-5 border border-2 p-4">
                 <h3 class="text-center"><i class="fas fa-list"></i> Resultado da Busca</h3>
-                <ul id="listaSinistros" class="list-group mb-4"></ul>
+                <label class="form-label">Objeto</label>
+                <input type="text" class="form-control" id="sinistroObjeto" style="text-transform:uppercase;" placeholder="">
+
+                <div class="sinistro-details mt-3">
+                    <div>
+                        <label class="form-label">Tipo do Sinistro</label>
+                        <input type="text" class="form-control" id="sinistroTipo" placeholder="">
+                    </div>
+                    <div>
+                        <label class="form-label">Data da notificação</label>
+                        <input type="text" class="form-control" id="sinistroData" placeholder="" style="color: red;">
+                    </div>
+                </div>
+
+                <!-- Botões de devolver e voltar -->
+                <div class="mt-3 d-flex justify-content-between">
+                    <button type="button" class="btn btn-danger w-45" onclick="devolverCampos()">Devolver</button>
+                    <a href="index.html" class="btn btn-outline-dark w-45">Voltar</a>
+                </div>
             </div>
         </div>
     </main>
@@ -54,98 +76,106 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <script>
-       async function pesquisarSinistro() {
-    const numeroReferencia = document.getElementById('numeroReferencia').value;
-    const listaSinistros = document.getElementById('listaSinistros');
-    const resultadosDiv = document.getElementById('resultados');
+        async function pesquisarSinistro() {
+            const numeroReferencia = document.getElementById('numeroReferencia').value;
+            const resultadosDiv = document.getElementById('resultados');
 
-    // Verificar se o campo de número de referência está vazio
-    if (!numeroReferencia.trim()) {
-        alert('Por favor, informe um número de referência válido.');
-        return; // Impede a execução do restante da função
-    }
+            // Verificar se o campo de número de referência está vazio
+            if (!numeroReferencia.trim()) {
+                alert('Por favor, informe um número de referência válido.');
+                return; // Impede a execução do restante da função
+            }
 
-    // Limpar lista de resultados
-    listaSinistros.innerHTML = '';
+            // Limpar resultados anteriores
+            const sinistroObjeto = document.getElementById('sinistroObjeto');
+            const sinistroTipo = document.getElementById('sinistroTipo');
+            const sinistroData = document.getElementById('sinistroData');
 
-    // Remover o botão "Baixar Nada Consta", caso exista
-    const oldButton = document.getElementById('downloadButton');
-    if (oldButton) {
-        oldButton.remove();
-    }
+            sinistroObjeto.value = '';
+            sinistroTipo.value = '';
+            sinistroData.value = '';
 
-    // Fazer a requisição à API
-    const response = await fetch(`http://127.0.0.1:3000/api/sheets`);
-    const data = await response.json();
+            // Remover o botão "Baixar Nada Consta", caso exista
+            const oldButton = document.getElementById('downloadButton');
+            if (oldButton) {
+                oldButton.remove();
+            }
 
-    if (data.success) {
-        // Filtrar os sinistros com base no número de referência
-        const sinistros = data.data.filter(sinistro => sinistro[0] === numeroReferencia);
+            // Fazer a requisição à API
+            const response = await fetch(`https://consulta.familiamascena.com.br/api/api/sheets`);
+            const data = await response.json();
 
-        if (sinistros.length > 0) {
-            sinistros.forEach(sinistro => {
-                const item = document.createElement('li');
-                item.classList.add('list-group-item');
-                item.innerHTML = `<strong>${sinistro[1]}</strong> - ${sinistro[2]} - Sinistro #${sinistro[0]} - ${sinistro[4]} - ${sinistro[3]}`;
-                listaSinistros.appendChild(item);
+            if (data.success) {
+                // Filtrar os sinistros com base no número de referência
+                const sinistros = data.data.filter(sinistro => sinistro[0] === numeroReferencia);
+
+                if (sinistros.length > 0) {
+                    const sinistro = sinistros[0]; // Vamos usar apenas o primeiro sinistro
+
+                    // Atualizar os placeholders
+                    sinistroObjeto.placeholder = sinistro[1];
+                    sinistroTipo.placeholder = sinistro[2];
+                    sinistroData.placeholder = sinistro[3];
+                } else {
+                    sinistroObjeto.placeholder = 'Nenhum sinistro encontrado.';
+                    sinistroTipo.placeholder = '';
+                    sinistroData.placeholder = '';
+
+                    // Criar botão para download
+                    const downloadButton = document.createElement('button');
+                    downloadButton.id = 'downloadButton';
+                    downloadButton.classList.add('btn', 'btn-secondary', 'mt-3');
+                    downloadButton.innerHTML = 'Baixar Nada Consta';
+                    downloadButton.onclick = () => gerarDOCX(numeroReferencia);
+                    resultadosDiv.appendChild(downloadButton);
+                }
+
+                // Exibir a seção de resultados
+                resultadosDiv.style.display = 'block';
+            } else {
+                sinistroObjeto.placeholder = 'Erro ao carregar os dados.';
+                sinistroTipo.placeholder = '';
+                sinistroData.placeholder = '';
+            }
+        }
+
+        async function gerarDOCX(numeroReferencia) {
+            const response = await fetch("https://consulta.familiamascena.com.br/api/api/generate-docx", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ numeroReferencia })
             });
-        } else {
-            listaSinistros.innerHTML = '<li class="list-group-item">Nenhum sinistro encontrado.</li>';
 
-            // Criar botão para download
-            const downloadButton = document.createElement('button');
-            downloadButton.id = 'downloadButton';
-            downloadButton.classList.add('btn', 'btn-secondary', 'mt-3');
-            downloadButton.innerHTML = 'Baixar Nada Consta';
-            downloadButton.onclick = () => gerarPDF(numeroReferencia);
-            resultadosDiv.appendChild(downloadButton);
+            if (response.ok) {
+                // Criar link para download
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `Sinistro_${numeroReferencia}.docx`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                alert("Erro ao gerar o documento.");
+            }
         }
 
-        // Exibir a seção de resultados
-        resultadosDiv.style.display = 'block';
-    } else {
-        listaSinistros.innerHTML = '<li class="list-group-item">Erro ao carregar os dados.</li>';
-    }
-}
-
-
-
-        function gerarPDF(numeroReferencia) {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            // Definir margens manualmente
-            const margemEsquerda = 10;  // Margem à esquerda
-            const margemDireita = 100;   // Margem à direita
-            const larguraPagina = doc.internal.pageSize.width; // Largura da página
-            const alturaPagina = doc.internal.pageSize.height; // Altura da página
-            const margemHorizontal = larguraPagina - margemEsquerda - margemDireita; // Largura útil
-
-            let linhaAtual = 20;  // A linha inicial onde começamos a escrever
-
-            // Definir o título
-            doc.setFontSize(16);
-            doc.text('Relatório de Sinistro', margemEsquerda, linhaAtual);
-            linhaAtual += 10;  // Ajustar para a próxima linha
-
-            // Corpo do texto
-            doc.setFontSize(12);
-            doc.text(`Na presente data, nenhum sinistro foi identificado para o veículo.`, margemEsquerda, linhaAtual);
-            linhaAtual += 10;  // Ajustar para a próxima linha
-            doc.text(`Número de referência: ${numeroReferencia}`, margemEsquerda, linhaAtual);
-            linhaAtual += 10;  // Ajustar para a próxima linha
-
-            // Adicionar a data
-            const dataAtual = new Date().toLocaleDateString();
-            doc.text(`Data da consulta: ${dataAtual}`, margemEsquerda, linhaAtual);
-
-            // Gerar o PDF com o nome do arquivo
-            doc.save(`Sinistro_${numeroReferencia}.pdf`);
+        function limparCampos() {
+            document.getElementById('numeroReferencia').value = '';
         }
 
+        function devolverCampos() {
+            document.getElementById('sinistroObjeto').value = '';
+            document.getElementById('sinistroTipo').value = '';
+            document.getElementById('sinistroData').value = '';
 
+            document.getElementById('sinistroObjeto').placeholder = '';
+        document.getElementById('sinistroTipo').placeholder = '';
+        document.getElementById('sinistroData').placeholder = '';
+        }
     </script>
-
 </body>
-
 </html>
