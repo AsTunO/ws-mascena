@@ -41,6 +41,7 @@ app.get("/api/sheets", async (req, res) => {
   }
 });
 
+/*
 // Rota para gerar o documento .docx usando easy-template-x com TemplateHandler
 app.post("/api/generate-docx", async (req, res) => {
   const { numeroReferencia } = req.body;
@@ -88,6 +89,6 @@ app.post("/api/generate-docx", async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 });
-
+*/
 // Iniciar o servidor
 app.listen(PORT, () => console.log(`🔥 Servidor rodando em http://localhost:${PORT}`));

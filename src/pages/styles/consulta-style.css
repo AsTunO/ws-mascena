@@ -45,8 +45,11 @@ footer {
         margin-top: 20px;  /* Adiciona um pequeno espaço acima do botão em telas pequenas */
     }
     h1 {
-        margin-top: 20px;
         margin-bottom: 20px;
+    }
+    main {
+        margin-top: 20px;
+        margin-bottom: 60px;
     }
 }
 
