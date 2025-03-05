@@ -4,85 +4,73 @@ html, body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    background-color: #f8f7f6;
+    background-color: #0e0e10;
 }
 
-/* Faz o conteúdo crescer e empurra o footer para baixo */
+/* Faz o conteúdo crescer */
 main {
-    flex: 1;
+    background-color: #0e0e10;
+    color: white;
+}
+
+/* Ajusta a imagem */
+.image-container {
+    max-width: 50%;
+    height: auto;
+}
+
+/* Responsividade do .email-container */
+.email-container {
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8%;
 }
 
-/* Ajuste do container da imagem */
-.image-container img {
-    max-width: 100%;
-    object-fit: cover;
+.email-container div {
+    max-width: 80%;
 }
 
-/* Formulário */
-.form-container {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3), 
-                -10px -10px 20px rgba(255, 255, 255, 0.8), 
-                inset 5px 5px 10px rgba(0, 0, 0, 0.1), 
-                inset -5px -5px 10px rgba(255, 255, 255, 0.7);
-    width: 100%;
-    max-width: 450px; /* Limita a largura do formulário */
-    margin: auto;
+.email-container p {
+    color: orange;
 }
 
-/* Estilização do Header */
-header {
-    width: 100%;
-    background-color: #FFFFFF;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    padding: 20px;
-
+/* Botão azul */
+.btn-blue {
+    background-color: rgb(70, 70, 240);
+    color: white;
+    font-weight: bold;
+    display: inline-block;
 }
 
-/* Footer no final da página */
+/* Ajuste do título principal */
+.mainTitle {
+    margin-top: 5%;
+    margin-bottom: 10%;
+}
+
+/* Ajuste do footer */
 footer {
     width: 100%;
     background-color: #272525;
-    color: rgb(250, 250, 250);
-    margin-top: 40px;
+    color: white;
     text-align: center;
-    box-shadow: 0px -4px 10px rgba(33, 56, 148, 0.3);
+    padding: 10px 0;
 }
 
-/* Estilização do botão do WhatsApp */
-.btn-outline-green {
-    color: #343a40;
-    border-color: #343a40;
+#btn-consulta {
+    margin-bottom: 40px;
 }
 
-.btn-outline-green:hover {
-    color: white;
-    background-color: #25d366;
-    border-color: #25d366;
-}
-
-.btn-outline-dark {
-    color: #343a40;
-    border-color: #343a40;
-}
-
-.btn-outline-dark:hover {
-    color: white;
-    background-color: #000000;
-    border-color: #0c0c0c;
-}
-
-/* Ajuste da imagem no desktop */
-@media (min-width: 992px) {
-    .image-container img {
-        max-width: 110%; /* Imagem maior em telas grandes */
+/* Ajustes para telas maiores */
+@media (min-width: 768px) {
+    .email-container {
+        flex-direction: row;
+        justify-content: center;
     }
-    .form-container {
-        padding-left: 30px;
+
+    .email-container div {
+        max-width: 30%;
     }
 }

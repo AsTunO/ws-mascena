@@ -1,5 +1,6 @@
 /* Faz o body ocupar 100% da tela */
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
     display: flex;
@@ -13,7 +14,8 @@ main {
     justify-content: center;
     align-items: center;
     flex: 1;
-    height: 100%; /* Garante que o main ocupe toda a altura disponível */
+    height: 100%;
+    /* Garante que o main ocupe toda a altura disponível */
 }
 
 /* Estilização do Header */
@@ -28,25 +30,40 @@ header {
 
 /* Footer no final da página */
 footer {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
-    background-color: #ffffff;
+    background-color: #000000;
     color: rgb(212, 164, 164);
-    padding: 15px;
     text-align: center;
     box-shadow: 0px -4px 10px rgba(33, 56, 148, 0.3);
     margin-top: 40px;
+    height: fit-content;
+}
+
+.text-start {
+    color: red;
+}
+
+.email {
+    color: orange;
 }
 
 @media (max-width: 576px) {
     .btn-primary {
-        margin-top: 20px;  /* Adiciona um pequeno espaço acima do botão em telas pequenas */
+        margin-top: 20px;
+        /* Adiciona um pequeno espaço acima do botão em telas pequenas */
     }
+
     .btn-secondary {
-        margin-top: 20px;  /* Adiciona um pequeno espaço acima do botão em telas pequenas */
+        margin-top: 20px;
+        /* Adiciona um pequeno espaço acima do botão em telas pequenas */
     }
+
     h1 {
         margin-bottom: 20px;
     }
+
     main {
         margin-top: 20px;
         margin-bottom: 60px;
@@ -56,12 +73,13 @@ footer {
 .sinistro-details {
     display: flex;
     gap: 10px;
-  }
-  
-  .sinistro-details div {
+}
+
+.sinistro-details div {
     flex: 1;
-  }
-  #sinistroData {
+}
+
+#sinistroData {
     color: red !important;
 }
 
